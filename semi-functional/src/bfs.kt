@@ -25,14 +25,13 @@ fun main(args: Array<String>){
             7 to 11,
             7 to 12)
 
-    println("Breadth first search in Kotlin\n" +
-            "Enter a starting node\n" +
-            "Possible entries: ${Arrays.toString(vertices)}")
+    println("Breadth first search in Kotlin");
 
-    println("\nEnter staring node: ")
-    val src = readLine()!!.toInt();
+    val src = vertices[0];
 
-    println(bfs(src, vertices, pairs))
+    bfs(src, vertices, pairs).forEach({
+        println(it)
+    })
 }
 
 /**
@@ -49,11 +48,8 @@ fun bfs(src: Int, vertices: Array<Int>, edges: Array<Pair<Int, Int>>) : List<Int
     queue.add(src)
     visited.add(src)
 
-    while(queue.count() > 0){
+    while(!queue.isEmpty()){
         val deq = queue.poll()
-
-        if(visited.contains(deq))
-            continue
 
         visited.add(deq)
 
@@ -61,7 +57,7 @@ fun bfs(src: Int, vertices: Array<Int>, edges: Array<Pair<Int, Int>>) : List<Int
 
         adjList.forEach {
             if (!visited.contains(it))
-                queue.offer(it)
+                queue.add(it)
         }
     }
 

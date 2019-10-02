@@ -32,9 +32,6 @@ namespace impr_bfs
             {
                 int deq = queue.Dequeue();
 
-                if (visited.Contains(deq))
-                    continue;
-
                 visited.Add(deq);
 
                 int[] adjList = GetAdjecencyList(deq, edges);
