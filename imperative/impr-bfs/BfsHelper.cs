@@ -12,17 +12,6 @@ namespace impr_bfs
     internal class BfsHelper
     {
         /// <summary>
-        /// Find the shortest path using bfs <see cref="Bfs(int, int, int[], Tuple{int, int}[])"/>
-        /// </summary>
-        /// <param name="src">Source node</param>
-        /// <param name="dest">Destination node</param>
-        /// <param name="vertices">The vertices</param>
-        /// <param name="edges">The edges of the vertices</param>
-        /// <returns>List of the shortest sequence from the source node to the target node</returns>
-        public List<int> FindShortestPathBfs(int src, int dest, int[] vertices, Tuple<int, int>[] edges) 
-            => Bfs(src, dest, vertices, edges);
-
-        /// <summary>
         /// Breadth first search
         /// </summary>
         /// <param name="src"></param>
@@ -30,12 +19,9 @@ namespace impr_bfs
         /// <param name="vertices"></param>
         /// <param name="edges"></param>
         /// <returns></returns>
-        public List<int> Bfs(int src, int dest, int[] vertices, Tuple<int, int>[] edges)
+        public List<int> Bfs(int src, int[] vertices, Tuple<int, int>[] edges)
         {
             List<int> visited = new List<int>();
-
-            if (src == dest)
-                return null;
 
             Queue<int> queue = new Queue<int>();
 

@@ -33,14 +33,13 @@ namespace impr_bfs
         static void Main(string[] args)
         {
             Console.WriteLine("BFS algorithm in C#\n" +
+                $"Select starting node.\n" +
                 $"Possible entries: { string.Join(", ", vertices)} ");
 
-            Console.WriteLine("Source node: ");
+            Console.WriteLine("Enter starting node: ");
             int src = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Desination node: ");
-            int dest = Convert.ToInt32(Console.ReadLine());
 
-            List<int> shortestPath = new BfsHelper().FindShortestPathBfs(src, dest, vertices, edges);
+            List<int> shortestPath = new BfsHelper().Bfs(src, vertices, edges);
 
             Console.WriteLine("Result: " + string.Join(", ", vertices));
           
