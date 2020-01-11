@@ -28,7 +28,7 @@ namespace impr_bfs
 
             Console.WriteLine("BFS algorithm in C#\n");
 
-            int src = vertices[1];
+            int src = vertices[0];
             Console.WriteLine($"Starting node is {src}");
 
             List<int> visisted = new BfsHelper().Bfs(src, vertices, edges);

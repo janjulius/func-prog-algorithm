@@ -1,3 +1,4 @@
+import Data.Time
 data Vertex = Vertex { vertexLabel :: [Char], vertexNeighbors :: [[Char]] } deriving (Show)
 
 data Graph = Graph [Vertex] deriving (Show)
@@ -41,17 +42,29 @@ printGraph (Graph (x:y)) = do
 
 main :: IO ()
 main = do
+  start <- getCurrentTime
   putStrLn "Bfs in Haskell"
   let inGraph = Graph [
-                  Vertex "1" ["2", "3", "4"          ]
-                , Vertex "2" ["5", "6"     ]
-                , Vertex "4" ["7", "8"          ]
-                , Vertex "5" ["9", "10"     ]
-                , Vertex "7" ["11","12"] 
+                  Vertex "1" ["2", "3", "4"],
+                 Vertex "2" ["5", "6"],
+                 Vertex "3" ["1"],
+                 Vertex "4" ["7", "8"],
+                 Vertex "5" ["9", "10"],
+                 Vertex "6" ["2"],
+                 Vertex "7" ["11","12"], 
+                 Vertex "8" ["4"],
+                 Vertex "9" ["5"],
+                 Vertex "10" ["5"],
+                 Vertex "11" ["7"],
+                 Vertex "12" ["7"]
                 ]
 
   let queue = graphVertexes inGraph ["1"]
   let outGraph = Graph queue
   let seen = queue
   printGraph $ bfs inGraph outGraph queue seen
+
+  
+  stop <- getCurrentTime
+  print $ diffUTCTime stop start
   return ()
