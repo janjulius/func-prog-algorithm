@@ -19,14 +19,13 @@ namespace impr_bfs
         /// <param name="vertices"></param>
         /// <param name="edges"></param>
         /// <returns></returns>
-        public List<int> Bfs(int src, int[] vertices, Tuple<int, int>[] edges)
+        public List<int> Bfs(int src, int[] vertices, List<Node> edges)
         {
             List<int> visited = new List<int>();
 
             Queue<int> queue = new Queue<int>();
 
             queue.Enqueue(src);
-            visited.Add(src);
 
             while(queue.Count > 0)
             {
@@ -34,37 +33,22 @@ namespace impr_bfs
 
                 visited.Add(deq);
 
-                int[] adjList = GetAdjecencyList(deq, edges);
-
-                foreach(int n in adjList)
+                Node seq = edges.FirstOrDefault(x => x.Number == deq);
+                if (seq != null)
                 {
-                    if (!visited.Contains(n))
+                    int[] adjList = seq?.Neighbours;
+
+                    foreach (int n in adjList)
                     {
-                        queue.Enqueue(n);
+                        if (!visited.Contains(n))
+                        {
+                            queue.Enqueue(n);
+                        }
                     }
                 }
             }
 
             return visited;
-        }
-
-        /// <summary>
-        /// Returns all adjecent nodes to <paramref name="node"/>
-        /// </summary>
-        /// <param name="node">The node to search for</param>
-        /// <param name="edges">The edges to search in</param>
-        /// <returns>Array of adjecent nodes</returns>
-        public int[] GetAdjecencyList(int node, Tuple<int, int>[] edges)
-        {
-            List<int> adjNodes = new List<int>();
-
-            for (int i = 0; i < edges.Length; i++)
-                if (edges[i].Item1 == node)
-                    if (!adjNodes.Contains(edges[i].Item2))
-                        adjNodes.Add(edges[i].Item2);
-
-            Console.WriteLine($"node: {node} result: {string.Join(", ", adjNodes)}");
-            return adjNodes.ToArray();
         }
     }
 }
