@@ -1,9 +1,4 @@
-data Vertex = Vertex {
-                          vertexLabel :: [Char]
-                        , vertexNeighbors :: [[Char]]
-                        , vertexDistance :: Int
-                        , vertexPredecessor :: [Char]
-                      } deriving (Show)
+data Vertex = Vertex { vertexLabel :: [Char], vertexNeighbors :: [[Char]] } deriving (Show)
 
 data Graph = Graph [Vertex] deriving (Show)
 
@@ -11,7 +6,7 @@ vertexInVertexes :: Vertex -> [Vertex] -> Bool
 vertexInVertexes _ [] = False
 vertexInVertexes Vertex {vertexLabel = label} (x:y) = foldl (\ acc x -> vertexLabel x == label || acc) False (x:y)
 
-graphVertexes :: Graph -> [[Char]]-> [Vertex]
+graphVertexes :: Graph -> [[Char]] -> [Vertex]
 graphVertexes (Graph []) _ = []
 graphVertexes (Graph (x:y)) [] = x : y
 graphVertexes (Graph (x:y)) keys = filter (\ z -> vertexLabel z `elem` keys) (x:y)
@@ -24,10 +19,9 @@ bfs (Graph (a:b)) (Graph (c:d)) (e:f) (g:h) = bfs inGraph outGraph queue seen'
           eLabel = vertexLabel e
           eNeighbors = vertexNeighbors e
           eVertexNeighbors = graphVertexes inGraph eNeighbors
-          dist = vertexDistance e + 1
           seen = g : h
           filteredNeighbors = filterVertexNeighbors seen eVertexNeighbors
-          enqueue = updateDistPred filteredNeighbors dist eLabel
+          enqueue = filteredNeighbors
           outGraph = Graph $ (c:d) ++ enqueue
           queue = f ++ enqueue
           seen' = seen ++ enqueue
@@ -37,10 +31,6 @@ filterVertexNeighbors _ [] = []
 filterVertexNeighbors [] _ = []
 filterVertexNeighbors s vn = filter (\ x -> not $ vertexInVertexes x s) vn
 
-updateDistPred :: [Vertex] -> Int -> [Char] -> [Vertex]
-updateDistPred [] _ _ = []
-updateDistPred (x:y) dist predLabel = map (\ (Vertex label n _ _) -> Vertex label n dist predLabel) (x:y)
-
 printGraph :: Graph -> IO ()
 printGraph (Graph []) = putStrLn ""
 printGraph (Graph (x:y)) = do
@@ -48,20 +38,19 @@ printGraph (Graph (x:y)) = do
   printGraph (Graph y)
   return ()
 
+
 main :: IO ()
 main = do
+  putStrLn "Bfs in Haskell"
   let inGraph = Graph [
-                  Vertex "a" ["b", "c"          ] 0 ""
-                , Vertex "b" ["a", "d", "e"     ] 0 ""
-                , Vertex "c" ["a", "d"          ] 0 ""
-                , Vertex "d" ["b", "c", "e"     ] 0 ""
-                , Vertex "e" ["b", "d", "f", "g"] 0 ""
-                , Vertex "f" ["e", "g", "h"     ] 0 ""
-                , Vertex "g" ["e", "f", "i"     ] 0 ""
-                , Vertex "h" ["f", "i"          ] 0 ""
-                , Vertex "i" ["g", "h"          ] 0 ""
+                  Vertex "1" ["2", "3", "4"          ]
+                , Vertex "2" ["5", "6"     ]
+                , Vertex "4" ["7", "8"          ]
+                , Vertex "5" ["9", "10"     ]
+                , Vertex "7" ["11","12"] 
                 ]
-  let queue = graphVertexes inGraph ["e"]
+
+  let queue = graphVertexes inGraph ["1"]
   let outGraph = Graph queue
   let seen = queue
   printGraph $ bfs inGraph outGraph queue seen
